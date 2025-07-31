@@ -871,6 +871,11 @@ public class PDFView extends RelativeLayout {
     }
 
     public void moveTo(float offsetX, float offsetY) {
+        if (pdfFile == null) {
+            // Log the event and safely exit to prevent the crash.
+            Log.e("PDFView-Patch", "moveTo called but PdfFile is null. Ignoring.");
+            return;
+        }
         moveTo(offsetX, offsetY, true);
     }
 
@@ -883,6 +888,11 @@ public class PDFView extends RelativeLayout {
      * @param moveHandle whether to move scroll handle or not
      */
     public void moveTo(float offsetX, float offsetY, boolean moveHandle) {
+        if (pdfFile == null) {
+            // Log the event and safely exit to prevent the crash.
+            Log.e("PDFView-Patch", "moveTo called but PdfFile is null. Ignoring.");
+            return;
+        }
         if (swipeVertical) {
             // Check X offset
             float scaledPageWidth = toCurrentScale(pdfFile.getMaxPageWidth());
