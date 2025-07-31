@@ -363,6 +363,10 @@ public class PDFView extends RelativeLayout {
     }
 
     void showPage(int pageNb) {
+        if (pdfFile == null) {
+            return;
+        }
+
         if (recycled) {
             return;
         }
@@ -388,6 +392,9 @@ public class PDFView extends RelativeLayout {
      * @return offset between 0 and 1
      */
     public float getPositionOffset() {
+        if (pdfFile == null) {
+            return 0;
+        }
         float offset;
         if (swipeVertical) {
             offset = -currentYOffset / (pdfFile.getDocLen(zoom) - getHeight());
@@ -403,6 +410,9 @@ public class PDFView extends RelativeLayout {
      * @see PDFView#getPositionOffset()
      */
     public void setPositionOffset(float progress, boolean moveHandle) {
+        if (pdfFile == null) {
+            return;
+        }
         if (swipeVertical) {
             moveTo(currentXOffset, (-pdfFile.getDocLen(zoom) + getHeight()) * progress, moveHandle);
         } else {
@@ -530,6 +540,9 @@ public class PDFView extends RelativeLayout {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (pdfFile == null) {
+            return;
+        }
         hasSize = true;
         if (waitingDocumentConfigurator != null) {
             waitingDocumentConfigurator.load();
@@ -973,6 +986,9 @@ public class PDFView extends RelativeLayout {
     }
 
     void loadPageByOffset() {
+        if (pdfFile == null || renderingHandler == null) {
+            return;
+        }
         if (0 == pdfFile.getPagesCount()) {
             return;
         }
@@ -1032,6 +1048,9 @@ public class PDFView extends RelativeLayout {
      * Find the edge to snap to when showing the specified page
      */
     SnapEdge findSnapEdge(int page) {
+        if (pdfFile == null) {
+            return SnapEdge.NONE;
+        }
         if (!pageSnap || page < 0) {
             return SnapEdge.NONE;
         }
@@ -1055,6 +1074,9 @@ public class PDFView extends RelativeLayout {
      * Get the offset to move to in order to snap to the page
      */
     float snapOffsetForPage(int pageIndex, SnapEdge edge) {
+        if (pdfFile == null) {
+            return 0;
+        }
         float offset = pdfFile.getPageOffset(pageIndex, zoom);
 
         float length = swipeVertical ? getHeight() : getWidth();
@@ -1069,6 +1091,9 @@ public class PDFView extends RelativeLayout {
     }
 
     int findFocusPage(float xOffset, float yOffset) {
+        if (pdfFile == null) {
+            return 0;
+        }
         float currOffset = swipeVertical ? yOffset : xOffset;
         float length = swipeVertical ? getHeight() : getWidth();
         // make sure first and last page can be found
@@ -1086,6 +1111,9 @@ public class PDFView extends RelativeLayout {
      * @return true if single page fills the entire screen in the scrolling direction
      */
     public boolean pageFillsScreen() {
+        if (pdfFile == null) {
+            return false;
+        }
         float start = -pdfFile.getPageOffset(currentPage, zoom);
         float end = start - pdfFile.getPageLength(currentPage, zoom);
         if (isSwipeVertical()) {
@@ -1144,6 +1172,9 @@ public class PDFView extends RelativeLayout {
      * @return true if whole document can displayed at once, false otherwise
      */
     public boolean documentFitsView() {
+        if (pdfFile == null) {
+            return false;
+        }
         float len = pdfFile.getDocLen(1);
         if (swipeVertical) {
             return len < getHeight();
@@ -1153,6 +1184,9 @@ public class PDFView extends RelativeLayout {
     }
 
     public void fitToWidth(int page) {
+        if (pdfFile == null) {
+            return;
+        }
         if (state != State.SHOWN) {
             Log.e(TAG, "Cannot fit, document not rendered yet");
             return;
@@ -1227,6 +1261,9 @@ public class PDFView extends RelativeLayout {
      * @return page number at given offset, starting from 0
      */
     public int getPageAtPositionOffset(float positionOffset) {
+        if (pdfFile == null) {
+            return 0;
+        }
         return pdfFile.getPageAtOffset(pdfFile.getDocLen(zoom) * positionOffset, zoom);
     }
 
