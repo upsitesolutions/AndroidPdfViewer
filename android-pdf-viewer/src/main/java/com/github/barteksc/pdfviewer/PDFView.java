@@ -827,7 +827,7 @@ public class PDFView extends RelativeLayout {
 
         dragPinchManager.enable();
 
-        callbacks.callOnLoadComplete(pdfiumCore.getPageCount(pdfFile.pdfDocument));
+        callbacks.callOnLoadComplete(pdfiumCore.getPageCount(pdfFile.getPdfDocument()));
 
 
         jumpTo(defaultPage, false);

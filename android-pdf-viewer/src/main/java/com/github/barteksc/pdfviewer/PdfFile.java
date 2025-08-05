@@ -376,4 +376,8 @@ class PdfFile {
 
         return documentPage;
     }
+
+    public PdfDocument getPdfDocument() {
+        return pdfDocument;
+    }
 }
